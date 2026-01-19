@@ -38,7 +38,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./pg-extensions/Dockerfile.${{ matrix.extension }}
+          file: ./Dockerfile.${{ matrix.extension }}
           platforms: ${{ matrix.platform }}
           push: true
           tags: ${{ matrix.tags }}
