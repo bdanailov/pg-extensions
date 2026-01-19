@@ -1,7 +1,7 @@
 ARG BASE=ghcr.io/cloudnative-pg/postgresql:18-minimal-trixie
 FROM $BASE AS builder
 
-ARG PG_MAJOR
+ARG PG_MAJOR=18
 ARG EXT_VERSION
 
 USER 0
