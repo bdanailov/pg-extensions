@@ -9,10 +9,6 @@ USER 0
 RUN apt-get update && \
 	apt-get install -y --no-install-recommends "postgresql-${PG_MAJOR}-partman=${EXT_VERSION}*" 
 
-RUN ls -la /usr/lib/postgresql/${PG_MAJOR}/lib/* \
-    /usr/share/postgresql/${PG_MAJOR}/extension/* \
-    /usr/share/doc/postgresql-${PG_MAJOR}-partman/
-
 FROM scratch
 ARG PG_MAJOR=18
 
