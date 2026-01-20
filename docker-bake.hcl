@@ -48,7 +48,7 @@ target "default" {
   ]
 
   dockerfile = "Dockerfile.${extension}"
-  context = "${metadata.name}/"
+  context = "/"
   name = "${metadata.name}-${sanitize(getExtensionVersion(distro, pgVersion))}-${pgVersion}-${distro}"
 
   tags = [
