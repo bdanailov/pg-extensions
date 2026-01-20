@@ -14,15 +14,11 @@ jobs:
       id-token: write
     strategy:
       matrix:
-        extension: [pg_cron, pg_partman, pg_vector]
+        extension: [pg_cron]
         platform: [ linux/amd64, linux/arm64 ]
         include:
           - extension: pg_cron
             tags: ghcr.io/bdanailov/pg-extensions/pgcron:18
-          - extension: pg_partman
-            tags: ghcr.io/bdanailov/pg-extensions/pgpartman:18
-          - extension: pg_vector
-            tags: ghcr.io/bdanailov/pg-extensions/pgvector:18
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -41,10 +37,12 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v4
+        uses: docker/bake-action@v6
         with:
-          context: .
-          file: ./Dockerfile.${{ matrix.extension }}
-          platforms: ${{ matrix.platform }}
+          files: ${{ matrix.extension }}.metadata.hcl, ./docker-bake.hcl
           push: true
-          tags: ${{ matrix.tags }}
+        env:
+          extension: ${{ matrix.extension }}
+          environment: production
+          registry: ghcr.io/${{ github.repository_owner }}
+          revision: ${{ github.sha }}

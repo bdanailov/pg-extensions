@@ -8,4 +8,4 @@ spec:
   cluster:
     name: cluster-example
   extensions:
-    - name: pg_cron
+    - name: vector

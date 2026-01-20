@@ -1,0 +1,25 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: cluster-pgaudit
+spec:
+  imageName: ghcr.io/cloudnative-pg/postgresql:18-minimal-trixie
+  instances: 1
+
+  storage:
+    size: 1Gi
+
+  postgresql:
+    shared_preload_libraries:
+      - "pgaudit"
+    parameters:
+      pgaudit.log: "all, -misc"
+      pgaudit.log_catalog: "off"
+      pgaudit.log_parameter: "on"
+      pgaudit.log_relation: "on"
+
+    extensions:
+    - name: pgaudit
+      image:
+        # renovate: suite=trixie-pgdg depName=postgresql-18-pgaudit
+        reference: ghcr.io/cloudnative-pg/pgaudit:18.0-18-trixie

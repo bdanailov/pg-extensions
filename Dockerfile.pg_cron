@@ -1,17 +1,22 @@
 ARG BASE=ghcr.io/cloudnative-pg/postgresql:18-minimal-trixie
 FROM $BASE AS builder
 
-ARG PG_MAJOR=18
-ARG EXT_VERSION=1.6.7
+ARG PG_MAJOR
+ARG EXT_VERSION
 
 USER 0
 
 RUN apt-get update && \
     apt-cache madison "postgresql-${PG_MAJOR}-cron" && \
-	apt-get install -y --no-install-recommends "postgresql-${PG_MAJOR}-cron=${EXT_VERSION}*" 
+	apt-get install -y --no-install-recommends "postgresql-${PG_MAJOR}-cron=${EXT_VERSION}" 
+
+RUN ls -la /usr/lib/postgresql/${PG_MAJOR}/lib/pg_cron* \
+    /usr/lib/postgresql/${PG_MAJOR}/lib/bitcode/* \
+    /usr/share/postgresql/${PG_MAJOR}/extension/*
+
 
 FROM scratch
-ARG PG_MAJOR=18
+ARG PG_MAJOR
 
 # Licenses
 COPY --from=builder /usr/share/doc/postgresql-${PG_MAJOR}-cron/copyright /licenses/postgresql-${PG_MAJOR}-cron/

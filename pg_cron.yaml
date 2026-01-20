@@ -8,12 +8,10 @@ spec:
   storage:
     size: 1Gi
   postgresql:
-    shared_preload_libraries:
+    shared_preload_libraries: 
       - "pg_cron"
-    parameters:
-      cron.database_name: "postgres"
     extensions:
-      - name: pgcron
-        image:
-          reference: ghcr.io/bdanailov/pg-extensions/pgcron:18
+    - name: pgcron
+      image:
+        reference: ghcr.io/bdanailov/pg-extensions/pgcron:18
   
