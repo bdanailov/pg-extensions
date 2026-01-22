@@ -1,0 +1,26 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: cluster-pg-cron
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:18-minimal-trixie
+  storage:
+    size: 1Gi
+  bootstrap:
+    initdb:
+      postInitSQL:
+        - "CREATE EXTENSION IF NOT EXISTS pg_cron;"
+  postgresql:
+    shared_preload_libraries: 
+      - "pg_cron"
+    parameters:
+      cron.database_name: "postgres"
+    extensions:
+    - name: pgcron
+      image:
+        reference: ghcr.io/bdanailov/pgcron:1.6.7-202601200812-18-trixie
+    - name: pg_partman
+      image:
+        reference: ghcr.io/bdanailov/pgpartman:5.4.0-202406120915-18-trixie
+  

@@ -1,16 +1,21 @@
 ARG BASE=ghcr.io/cloudnative-pg/postgresql:18-minimal-trixie
 FROM $BASE AS builder
 
-ARG PG_MAJOR=18
-ARG EXT_VERSION=5.4.0
+ARG PG_MAJOR
+ARG EXT_VERSION
 
 USER 0
 
 RUN apt-get update && \
-	apt-get install -y --no-install-recommends "postgresql-${PG_MAJOR}-partman=${EXT_VERSION}*" 
+	apt-cache madison "postgresql-${PG_MAJOR}-partman" && \
+	apt-get install -y --no-install-recommends "postgresql-${PG_MAJOR}-partman=${EXT_VERSION}" 
+
+RUN ls -la /usr/lib/postgresql/${PG_MAJOR}/lib/pg_partman* \
+    /usr/lib/postgresql/${PG_MAJOR}/lib/bitcode/* \
+    /usr/share/postgresql/${PG_MAJOR}/extension/*
 
 FROM scratch
-ARG PG_MAJOR=18
+ARG PG_MAJOR
 
 # Licenses
 COPY --from=builder /usr/share/doc/postgresql-${PG_MAJOR}-partman/copyright /licenses/postgresql-${PG_MAJOR}-partman/

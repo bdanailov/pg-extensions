@@ -1,11 +1,16 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
-  name: test-app
+  name: app
 spec:
   name: app
   owner: app
   cluster:
-    name: cluster-example
+    name: cluster-pg-cron
   extensions:
-    - name: vector
+    - name: pg_cron
+      ensure: present
+      version: "1.6"
+    - name: pg_partman
+      ensure: present
+      version: "5.4"
