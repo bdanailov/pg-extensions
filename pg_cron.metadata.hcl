@@ -1,5 +1,5 @@
 metadata = {
-  name                     = "pgcron"
+  name                     = "pg_cron"
   sql_name                 = "pg_cron"
   image_name               = "pgcron"
   shared_preload_libraries = ["pg_cron"]

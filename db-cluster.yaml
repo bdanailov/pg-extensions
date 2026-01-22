@@ -17,10 +17,10 @@ spec:
     parameters:
       cron.database_name: "postgres"
     extensions:
-    - name: pgcron
+    - name: pg_cron
       image:
-        reference: ghcr.io/bdanailov/pgcron:1.6.7-202601200812-18-trixie
+        reference: ghcr.io/bdanailov/pgcron:1.6.7-18-trixie
     - name: pg_partman
       image:
-        reference: ghcr.io/bdanailov/pgpartman:5.4.0-202406120915-18-trixie
+        reference: ghcr.io/bdanailov/pgpartman:5.4.0-18-trixie
   
